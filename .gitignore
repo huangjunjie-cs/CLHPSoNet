@@ -1,0 +1,8 @@
+datas/
+.vscode/
+.ipynb_checkpoints/
+venv/
+*.log
+*.gexf
+.DS_Store
+*.db
