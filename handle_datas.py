@@ -65,6 +65,9 @@ def handle_dynasty():
                 print(fpath, e, file = json_error_f)
 
 def statistic_relation():
+    '''
+    社交关系
+    '''
     relations = set()
     relations_codes = set()
     relations_c = defaultdict(int)
@@ -102,7 +105,10 @@ def statistic_relation():
         print(r[0], ',', r[1], ',', relations_c[r])
 
 
-def test():
+def statistic_social_status():
+    '''
+    统计社会地位
+    '''
     entry_dict = defaultdict(int)
     social_status_dict = defaultdict(int)
     error = 0
