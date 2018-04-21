@@ -228,13 +228,29 @@ def network_attribute_export(dynasty = '唐'):
     df = pd.DataFrame(node_list)
     df.to_csv(dynasty + '.csv')
 
+def compute_network_info(dynasty = '唐'):
+    file_path = './vis_datas/'+dy[1]+'.gexf'
+    g = nx.read_gexf(file_path)
+    # connected_g = nx.connected_components(g)
+    print(dynasty)
+    cluster_coeff = nx.algorithms.approximation.clustering_coefficient(g)
+    print('clustering_coefficient', cluster_coeff)
+    for i in nx.connected_components(g):
+        largest_nodes = i
+        largest_g = g.subgraph(largest_nodes)
+        nx.write_gexf(largest_g, './vis_datas/' + dy[1] + '_largest_connected.gexf')
+        print(dy[0], 'largest connected subgraph')
+        print(nx.info(largest_g))
+        print('average_shortest_path_length', nx.average_shortest_path_length(largest_g))
+        break
+
 
 def main():
     # handle_dynasty()
     # test()
     # statistic_relation()
     for dy in dylist:
-        network_attribute_export(dy[0])
+        compute_network_info(dy[0])
     
             
 
