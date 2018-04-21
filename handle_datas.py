@@ -8,11 +8,13 @@ from collections import defaultdict
 
 # import matplotlib.pyplot as plt
 import networkx as nx
+import pandas as pd
 
 DATA_DIR = './datas/datas'
 
 DYNASTY = {'唐': (618, 907), '宋': (960, 1279), '元': (1271, 1368), '明': (1368, 1644), '清': (1636, 1912)}
-error_f = open('error_years.log', 'w')
+dylist = [('唐', 'tang'), ('宋', 'song'), ('元', 'yuan'), ('明' , 'ming'), ('清', 'qing')]
+
 
 def is_dynasty(dynasty, json_data, person_id):
     # 满足三种条件之一即可
@@ -20,6 +22,7 @@ def is_dynasty(dynasty, json_data, person_id):
     # 出生时间在范围内
     # 死亡时间在范围内
     # json_data -> ['Package']['PersonAuthority']['PersonInfo']['Person']
+    error_f = open('error_years.log', 'a')
     if json_data['BasicInfo']['Dynasty'] == dynasty:
         return True
     year_birth = json_data['BasicInfo']['YearBirth']
@@ -145,11 +148,93 @@ def statistic_social_status():
     print(entry_dict, social_status_dict)
     
 
+def network_extract(dynasty = '唐'):
+    '''
+    抽取出社交关系图
+    '''
+    edge_lists = []
+    count = 0
+    node_num = 0
+    dynasty_dir = os.path.join('datas', dynasty)
+    for fname in os.listdir(dynasty_dir):
+        node_num += 1
+        fpath = os.path.join(dynasty_dir, fname)
+        f = open(fpath)
+        json_data = json.load(f)
+        if 'PersonSocialAssociation' in json_data:
+            person_association = json_data["PersonSocialAssociation"]
+            if 'Association' in person_association:
+                person_assoc = person_association['Association']
+                if isinstance(person_assoc, list):
+                    for person in person_association['Association']:
+                        if 'AssocPersonId' in person:
+                            #print(fname[:fname.rfind('.')], person['AssocPersonId'])
+                            edge_lists.append((fname[:fname.rfind('.')], person['AssocPersonId']))
+                        count +=1
+                        #if count > 10:break
+                elif isinstance(person_assoc, dict):
+                    #print('dict:', fname[:fname.rfind('.')], person_assoc['AssocPersonId'])
+                    edge_lists.append((fname[:fname.rfind('.')], person_assoc['AssocPersonId']))
+                    count += 1
+    print(count, node_num)
+    G = nx.Graph()
+    G.add_edges_from(edge_lists)
+    return G
+
+def network_attribute_export(dynasty = '唐'):
+    '''
+    对应节点的属性数据导出
+    '''
+    node_list = []
+    dynasty_dir = os.path.join('datas', dynasty)
+    for fname in os.listdir(dynasty_dir):
+        fpath = os.path.join(dynasty_dir, fname)
+        f = open(fpath)
+        json_data = json.load(f)
+        node_attr = dict()
+        node_attr['nid'] = fname[:fname.rfind('.')]
+        basic = json_data['BasicInfo']
+        for i in basic:
+            node_attr[i] = basic[i]
+
+        # 入仕属性
+        if 'PersonEntryInfo' in json_data and 'Entry' in json_data['PersonEntryInfo']:
+            tmp = json_data['PersonEntryInfo']['Entry']
+            entry = []
+            if isinstance(tmp, list):
+                for tmp2 in tmp:
+                    if 'RuShiDoor' in tmp2:
+                        tmp3 = tmp2['RuShiDoor']
+                        entry.append(tmp3)
+            else:
+                tmp3 = tmp['RuShiDoor']
+                entry.append(tmp3)
+            node_attr['Entry'] = ';'.join(entry)
+
+        # 社会地位
+        if 'PersonSocialStatus' in json_data and 'SocialStatus' in json_data['PersonSocialStatus']:
+            tmp = json_data['PersonSocialStatus']['SocialStatus']
+            social_status = []
+            if isinstance(tmp, list):
+                for tmp2 in tmp:
+                    tmp3 = tmp2['StatusName']
+                    social_status.append(tmp3)
+            else:
+                tmp3 = tmp['StatusName']
+                social_status.append(tmp3)
+            node_attr['SocialStatus'] = ';'.join(social_status)
+        node_list.append(node_attr)
+
+    df = pd.DataFrame(node_list)
+    df.to_csv(dynasty + '.csv')
+
 
 def main():
     # handle_dynasty()
     # test()
-    statistic_relation()
+    # statistic_relation()
+    for dy in dylist:
+        network_attribute_export(dy[0])
     
             
 
