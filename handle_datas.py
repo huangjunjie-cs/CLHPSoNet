@@ -228,29 +228,68 @@ def network_attribute_export(dynasty = '唐'):
     df = pd.DataFrame(node_list)
     df.to_csv(dynasty + '.csv')
 
-def compute_network_info(dynasty = '唐'):
+def compute_network_info(dy):
     file_path = './vis_datas/'+dy[1]+'.gexf'
     g = nx.read_gexf(file_path)
     # connected_g = nx.connected_components(g)
-    print(dynasty)
-    cluster_coeff = nx.algorithms.approximation.clustering_coefficient(g)
+    print(dy[0])
+    cluster_coeff = nx.average_clustering(g)
     print('clustering_coefficient', cluster_coeff)
     for i in nx.connected_components(g):
         largest_nodes = i
         largest_g = g.subgraph(largest_nodes)
         nx.write_gexf(largest_g, './vis_datas/' + dy[1] + '_largest_connected.gexf')
+        cluster_coeff = nx.average_clustering(largest_g)
         print(dy[0], 'largest connected subgraph')
+        print('clustering_coefficient', cluster_coeff)
         print(nx.info(largest_g))
         print('average_shortest_path_length', nx.average_shortest_path_length(largest_g))
         break
 
+def compute_centrality(dy):
+    '''
+    中心度衡量：
+    度中心，
+    介数
+    接近
+    特征根
+    
+    '''
+    dy_name = dy[0]
+    dy_pingyin = dy[1]
+    print(dy_name)
+    file_path = './vis_datas/'+dy[1]+'.gexf'
+    g = nx.read_gexf(file_path)
+    result = defaultdict(list)
+    degree_cen = nx.degree_centrality(g)
+    for i in degree_cen:
+        result[i].append(i)
+    print('degree done')
+    bet_cen = nx.betweenness_centrality(g)
+    for i in bet_cen:
+        result[i].append(i)
+    print('betweenness done')
+    
+    close_cen =  nx.closeness_centrality(g)
+    for i in close_cen:
+        result[i].append(i)
+    print('closeness done')
+
+    eig_cen = nx.eigenvector_centrality(g)
+    for i in eig_cen:
+        result[i].append(i)
+    print('eigenvector done')
+    
+    with open('./results/{}_centrality.json'.format(dy_pingyin), 'w') as f:
+        f.write(json.dumps(result))
+    
 
 def main():
     # handle_dynasty()
     # test()
     # statistic_relation()
-    for dy in dylist:
-        compute_network_info(dy[0])
+    # for dy in dylist:
+    compute_centrality(dylist[4])
     
             
 
