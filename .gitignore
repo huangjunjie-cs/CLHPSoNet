@@ -6,3 +6,5 @@ venv/
 *.gexf
 .DS_Store
 *.db
+vis_datas/
+*.gephi
