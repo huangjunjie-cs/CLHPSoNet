@@ -6,3 +6,4 @@ venv/
 *.gexf
 .DS_Store
 *.db
+*.json
