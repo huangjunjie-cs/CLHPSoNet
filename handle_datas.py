@@ -284,12 +284,117 @@ def compute_centrality(dy):
         f.write(json.dumps(result))
     
 
+def signed_graph_extract(dy):
+    '''
+    
+    将朝代的关系的signed加入，分别得到总体、postive、negtive的网络
+    '''
+    dy_name = dy[0]
+    dy_pingyin = dy[1]
+    print(dy_name, 'signed graph extracting')
+    df = pd.read_csv("signed.csv")
+    signed_data = df.to_dict('records')
+    sigend_edge = defaultdict(int)
+    for i in signed_data:
+        sigend_edge[i['code']] = i['signed']
+    
+    dynasty_dir = os.path.join('datas', dy_name)
+    relations_pos = defaultdict(int)
+    relations_neg = defaultdict(int)
+    relations_v = defaultdict(int)
+
+    node_num = 0
+    for fname in os.listdir(dynasty_dir):
+        node_num += 1
+        fpath = os.path.join(dynasty_dir, fname)
+        with open(fpath) as f:
+            try:
+                person_data = json.load(f)
+                if 'PersonSocialAssociation' in person_data:
+                    person_association = person_data["PersonSocialAssociation"]
+                    if 'Association' in person_association:
+                        person_assoc = person_association['Association']
+                        if isinstance(person_assoc, list):
+                            for person in person_association['Association']:
+                                if 'AssocName' in person and 'AssocCode' in person and 'AssocPersonId' in person:
+                                    person_b = person['AssocPersonId']
+                                    person_a = fname[:fname.rfind('.')]
+                                    relation_codes = person['AssocCode']
+                                    signed_v = sigend_edge[relation_codes]
+                                    a_2_b = (person_a, person_b)
+                                    if signed_v > 0:
+                                        relations_pos[a_2_b] += signed_v
+                                        relations_v[a_2_b] += signed_v
+                                    else:
+                                        relations_neg[a_2_b] += signed_v
+                                        relations_v[a_2_b] += signed_v
+                                    count += 1
+                        elif isinstance(person_assoc, dict):
+                            person_b = person['AssocPersonId']
+                            person_a = fname[:fname.rfind('.')]
+                            relation_codes = person['AssocCode']
+                            signed_v = sigend_edge[relation_codes]
+                            a_2_b = (person_a, person_b)
+                            if signed_v > 0:
+                                relations_pos[a_2_b] += signed_v
+                                relations_v[a_2_b] += signed_v
+                            else:
+                                relations_neg[a_2_b] += signed_v
+                                relations_v[a_2_b] += signed_v
+                            count += 1
+            except json.decoder.JSONDecodeError as e:
+                error += 1
+        # if node_num > 0:
+        #     break
+    # 测试欧阳修和王安石
+    # 1384 , 1762
+    # print(relations_neg)
+    # print(relations_pos)
+    # print(relations_v)
+    print(relations_v[('1384','1762')], relations_v[('1762','1384')] )
+    for i in relations_v:
+        n_v = (i[-1], i[0])
+        v1 = relations_v[i]
+        v2 = 0 if n_v not in relations_v else relations_v[n_v]
+        if v1 != v2:
+            print(i)
+
+    # 需要取较大值
+    G = nx.Graph()
+    for i in relations_v:
+        n_v = (i[-1], i[0])
+        v1 = relations_v[i]
+        v2 = 0 if n_v not in relations_v else relations_v[n_v]
+        v = v1 if abs(v1) > abs(v2) else v2
+        G.add_edge(i[0], i[1], weight=v)
+    nx.write_gexf(G, './vis_datas/{}-signed.gexf'.format(dy_pingyin))
+
+    G = nx.Graph()
+    for i in relations_pos:
+        n_v = (i[-1], i[0])
+        v1 = relations_pos[i]
+        v2 = 0 if n_v not in relations_pos else relations_pos[n_v]
+        v = v1 if abs(v1) > abs(v2) else v2
+        G.add_edge(i[0], i[1], weight=v)
+    nx.write_gexf(G, './vis_datas/{}-pos.gexf'.format(dy_pingyin))
+
+    G = nx.Graph()
+    for i in relations_neg:
+        n_v = (i[-1], i[0])
+        v1 = relations_neg[i]
+        v2 = 0 if n_v not in relations_neg else relations_neg[n_v]
+        v = v1 if abs(v1) > abs(v2) else v2
+        G.add_edge(i[0], i[1], weight=v)
+    nx.write_gexf(G, './vis_datas/{}-neg.gexf'.format(dy_pingyin))
+
+
 def main():
     # handle_dynasty()
     # test()
     # statistic_relation()
     # for dy in dylist:
-    compute_centrality(dylist[4])
+    # compute_centrality(dylist[4])
+    signed_graph_extract(dylist[1])
     
             
 
