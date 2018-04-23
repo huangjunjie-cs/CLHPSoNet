@@ -168,21 +168,25 @@ def network_extract(dy):
                     for person in person_association['Association']:
                         if 'AssocPersonId' in person:
                             #print(fname[:fname.rfind('.')], person['AssocPersonId'])
-                            edge_lists.append((fname[:fname.rfind('.')], person['AssocPersonId']))
+                            person_b = person['AssocPersonId']
+                            person_a = fname[:fname.rfind('.')]
+                            edge_lists.append((person_a, person_b))
                         count +=1
                 elif isinstance(person_assoc, dict) and 'AssocPersonId' in person_assoc:
                     #print('dict:', fname[:fname.rfind('.')], person_assoc['AssocPersonId'])
-                    edge_lists.append((fname[:fname.rfind('.')], person_assoc['AssocPersonId']))
+                    person_b = person_assoc['AssocPersonId']
+                    person_a = fname[:fname.rfind('.')]
+                    edge_lists.append((person_a, person_b))
                     count += 1
     print(count, node_num)
     #############
-    # v = 0
-    # nodes=set()
-    # for i in edge_lists:
-    #     if i[0] == '1762' or i[1] == '1762':
-    #         nodes.add(i[0])
-    #         nodes.add(i[1])
-    # print(len(nodes))
+    v = 0
+    nodes=set()
+    for i in edge_lists:
+        if i[0] == '1762' or i[1] == '1762':
+            nodes.add(i[0])
+            nodes.add(i[1])
+    print(len(nodes))
     ##########
     G = nx.Graph()
     G.add_edges_from(edge_lists)
@@ -338,9 +342,9 @@ def signed_graph_extract(dy):
                                     relations_v[a_2_b] += signed_v
                                 count += 1
                     elif isinstance(person_assoc, dict) and 'AssocPersonId' in person_assoc:
-                        person_b = person['AssocPersonId']
+                        person_b = person_assoc['AssocPersonId']
                         person_a = fname[:fname.rfind('.')]
-                        relation_codes = person['AssocCode']
+                        relation_codes = person_assoc['AssocCode']
                         signed_v = sigend_edge[relation_codes]
                         a_2_b = (person_a, person_b)
                         if signed_v > 0:
@@ -363,20 +367,27 @@ def signed_graph_extract(dy):
     print(relations_v[('1384','1762')], relations_v[('1762','1384')] )
     print(relations_pos[('1384','1762')], relations_pos[('1762','1384')] )
     print(relations_neg[('1384','1762')], relations_neg[('1762','1384')] )
-    
+
+    ####################
+    # 测试是否对称，答案，不对称
     # for i in relations_v:
     #     n_v = (i[-1], i[0])
     #     v1 = relations_v[i]
     #     v2 = 0 if n_v not in relations_v else relations_v[n_v]
     #     if v1 != v2:
     #         print(i)
-
+    ####################
+    
+    ####################
     nodes = set()
     for i in relations_v:
         if i[0] == '1762' or i[1] == '1762':
             nodes.add(i[0])
             nodes.add(i[1])
     print(len(nodes))
+    ####################
+
+    
     # 需要取较大值
     G = nx.Graph()
     for i in relations_v:
@@ -413,8 +424,8 @@ def main():
     # for dy in dylist:
     # compute_centrality(dylist[4])
     signed_graph_extract(dylist[1])
-    # G = network_extract(dylist[1])
-    # nx.write_gexf(G, './vis_datas/{}.gexf'.format(dylist[1][1]))
+    G = network_extract(dylist[1])
+    nx.write_gexf(G, './vis_datas/{}.gexf'.format(dylist[1][1]))
     
     
             
