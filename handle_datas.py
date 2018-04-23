@@ -107,7 +107,6 @@ def statistic_relation():
     for r in relations_c:
         print(r[0], ',', r[1], ',', relations_c[r])
 
-
 def statistic_social_status():
     '''
     统计社会地位
@@ -147,14 +146,14 @@ def statistic_social_status():
                     error += 1
     print(entry_dict, social_status_dict)
     
-
-def network_extract(dynasty = '唐'):
+def network_extract(dy):
     '''
     抽取出社交关系图
     '''
     edge_lists = []
     count = 0
     node_num = 0
+    dynasty = dy[0]
     dynasty_dir = os.path.join('datas', dynasty)
     for fname in os.listdir(dynasty_dir):
         node_num += 1
@@ -171,21 +170,30 @@ def network_extract(dynasty = '唐'):
                             #print(fname[:fname.rfind('.')], person['AssocPersonId'])
                             edge_lists.append((fname[:fname.rfind('.')], person['AssocPersonId']))
                         count +=1
-                        #if count > 10:break
-                elif isinstance(person_assoc, dict):
+                elif isinstance(person_assoc, dict) and 'AssocPersonId' in person_assoc:
                     #print('dict:', fname[:fname.rfind('.')], person_assoc['AssocPersonId'])
                     edge_lists.append((fname[:fname.rfind('.')], person_assoc['AssocPersonId']))
                     count += 1
     print(count, node_num)
+    #############
+    # v = 0
+    # nodes=set()
+    # for i in edge_lists:
+    #     if i[0] == '1762' or i[1] == '1762':
+    #         nodes.add(i[0])
+    #         nodes.add(i[1])
+    # print(len(nodes))
+    ##########
     G = nx.Graph()
     G.add_edges_from(edge_lists)
     return G
 
-def network_attribute_export(dynasty = '唐'):
+def network_attribute_export(dy):
     '''
     对应节点的属性数据导出
     '''
     node_list = []
+    dynasty = dy[0]
     dynasty_dir = os.path.join('datas', dynasty)
     for fname in os.listdir(dynasty_dir):
         fpath = os.path.join(dynasty_dir, fname)
@@ -283,7 +291,6 @@ def compute_centrality(dy):
     with open('./results/{}_centrality.json'.format(dy_pingyin), 'w') as f:
         f.write(json.dumps(result))
     
-
 def signed_graph_extract(dy):
     '''
     
@@ -291,12 +298,13 @@ def signed_graph_extract(dy):
     '''
     dy_name = dy[0]
     dy_pingyin = dy[1]
+    count = 0
     print(dy_name, 'signed graph extracting')
     df = pd.read_csv("signed.csv")
     signed_data = df.to_dict('records')
     sigend_edge = defaultdict(int)
     for i in signed_data:
-        sigend_edge[i['code']] = i['signed']
+        sigend_edge[str(i['code'])] = i['signed']
     
     dynasty_dir = os.path.join('datas', dy_name)
     relations_pos = defaultdict(int)
@@ -308,42 +316,42 @@ def signed_graph_extract(dy):
         node_num += 1
         fpath = os.path.join(dynasty_dir, fname)
         with open(fpath) as f:
-            try:
-                person_data = json.load(f)
-                if 'PersonSocialAssociation' in person_data:
-                    person_association = person_data["PersonSocialAssociation"]
-                    if 'Association' in person_association:
-                        person_assoc = person_association['Association']
-                        if isinstance(person_assoc, list):
-                            for person in person_association['Association']:
-                                if 'AssocName' in person and 'AssocCode' in person and 'AssocPersonId' in person:
-                                    person_b = person['AssocPersonId']
-                                    person_a = fname[:fname.rfind('.')]
-                                    relation_codes = person['AssocCode']
-                                    signed_v = sigend_edge[relation_codes]
-                                    a_2_b = (person_a, person_b)
-                                    if signed_v > 0:
-                                        relations_pos[a_2_b] += signed_v
-                                        relations_v[a_2_b] += signed_v
-                                    else:
-                                        relations_neg[a_2_b] += signed_v
-                                        relations_v[a_2_b] += signed_v
-                                    count += 1
-                        elif isinstance(person_assoc, dict):
-                            person_b = person['AssocPersonId']
-                            person_a = fname[:fname.rfind('.')]
-                            relation_codes = person['AssocCode']
-                            signed_v = sigend_edge[relation_codes]
-                            a_2_b = (person_a, person_b)
-                            if signed_v > 0:
-                                relations_pos[a_2_b] += signed_v
-                                relations_v[a_2_b] += signed_v
-                            else:
-                                relations_neg[a_2_b] += signed_v
-                                relations_v[a_2_b] += signed_v
-                            count += 1
-            except json.decoder.JSONDecodeError as e:
-                error += 1
+            person_data = json.load(f)
+            if 'PersonSocialAssociation' in person_data:
+                person_association = person_data["PersonSocialAssociation"]
+                if 'Association' in person_association:
+                    person_assoc = person_association['Association']
+                    if isinstance(person_assoc, list):
+                        for person in person_association['Association']:
+                            # if 'AssocName' in person and 'AssocCode' in person and 'AssocPersonId' in person:
+                            if 'AssocPersonId' in person:
+                                person_b = person['AssocPersonId']
+                                person_a = fname[:fname.rfind('.')]
+                                relation_codes = person['AssocCode']
+                                signed_v = sigend_edge[relation_codes]
+                                a_2_b = (person_a, person_b)
+                                if signed_v > 0:
+                                    relations_pos[a_2_b] += signed_v
+                                    relations_v[a_2_b] += signed_v
+                                else:
+                                    relations_neg[a_2_b] += signed_v
+                                    relations_v[a_2_b] += signed_v
+                                count += 1
+                    elif isinstance(person_assoc, dict) and 'AssocPersonId' in person_assoc:
+                        person_b = person['AssocPersonId']
+                        person_a = fname[:fname.rfind('.')]
+                        relation_codes = person['AssocCode']
+                        signed_v = sigend_edge[relation_codes]
+                        a_2_b = (person_a, person_b)
+                        if signed_v > 0:
+                            relations_pos[a_2_b] += signed_v
+                            relations_v[a_2_b] += signed_v
+                        elif signed_v < 0:
+                            relations_neg[a_2_b] += signed_v
+                            relations_v[a_2_b] += signed_v
+                        else:
+                            relations_v[a_2_b] += signed_v
+                        count += 1
         # if node_num > 0:
         #     break
     # 测试欧阳修和王安石
@@ -351,14 +359,24 @@ def signed_graph_extract(dy):
     # print(relations_neg)
     # print(relations_pos)
     # print(relations_v)
+    print(dy_name, 'signed graph extracted', count, node_num)
     print(relations_v[('1384','1762')], relations_v[('1762','1384')] )
-    for i in relations_v:
-        n_v = (i[-1], i[0])
-        v1 = relations_v[i]
-        v2 = 0 if n_v not in relations_v else relations_v[n_v]
-        if v1 != v2:
-            print(i)
+    print(relations_pos[('1384','1762')], relations_pos[('1762','1384')] )
+    print(relations_neg[('1384','1762')], relations_neg[('1762','1384')] )
+    
+    # for i in relations_v:
+    #     n_v = (i[-1], i[0])
+    #     v1 = relations_v[i]
+    #     v2 = 0 if n_v not in relations_v else relations_v[n_v]
+    #     if v1 != v2:
+    #         print(i)
 
+    nodes = set()
+    for i in relations_v:
+        if i[0] == '1762' or i[1] == '1762':
+            nodes.add(i[0])
+            nodes.add(i[1])
+    print(len(nodes))
     # 需要取较大值
     G = nx.Graph()
     for i in relations_v:
@@ -391,10 +409,13 @@ def signed_graph_extract(dy):
 def main():
     # handle_dynasty()
     # test()
-    # statistic_relation()
+    # statistic_relation() 
     # for dy in dylist:
     # compute_centrality(dylist[4])
     signed_graph_extract(dylist[1])
+    # G = network_extract(dylist[1])
+    # nx.write_gexf(G, './vis_datas/{}.gexf'.format(dylist[1][1]))
+    
     
             
 
