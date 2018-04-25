@@ -422,10 +422,10 @@ def main():
     # test()
     # statistic_relation() 
     # for dy in dylist:
-    # compute_centrality(dylist[4])
+    # compute_network_info(dylist[0])
     signed_graph_extract(dylist[1])
-    G = network_extract(dylist[1])
-    nx.write_gexf(G, './vis_datas/{}.gexf'.format(dylist[1][1]))
+    #G = network_extract(dylist[1])
+    #nx.write_gexf(G, './vis_datas/{}.gexf'.format(dylist[1][1]))
     
     
             
