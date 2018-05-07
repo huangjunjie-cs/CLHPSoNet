@@ -15,6 +15,19 @@ DATA_DIR = './datas/datas'
 DYNASTY = {'唐': (618, 907), '宋': (960, 1279), '元': (1271, 1368), '明': (1368, 1644), '清': (1636, 1912)}
 dylist = [('唐', 'tang'), ('宋', 'song'), ('元', 'yuan'), ('明' , 'ming'), ('清', 'qing')]
 
+# 创建log文件夹
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+
+# 创建结果文件夹
+if not os.path.exists('results'):
+    os.mkdir('results')
+
+# 创建csv文件夹
+if not os.path.exists('csv'):
+    os.mkdir('csv')
+
+
 
 def is_dynasty(dynasty, json_data, person_id):
     # 满足三种条件之一即可
@@ -22,7 +35,7 @@ def is_dynasty(dynasty, json_data, person_id):
     # 出生时间在范围内
     # 死亡时间在范围内
     # json_data -> ['Package']['PersonAuthority']['PersonInfo']['Person']
-    error_f = open('error_years.log', 'a')
+    error_f = open('./logs/error_years.log', 'a')
     if json_data['BasicInfo']['Dynasty'] == dynasty:
         return True
     year_birth = json_data['BasicInfo']['YearBirth']
@@ -51,7 +64,7 @@ def handle_dynasty():
     for dynasty in DYNASTY:
         if not os.path.exists('datas/{}'.format(dynasty)):
             os.mkdir('datas/{}'.format(dynasty))
-    json_error_f = open('json_error.log', 'w')
+    json_error_f = open('./logs/json_error.log', 'a')
     for fname in os.listdir(DATA_DIR):
         fpath = os.path.join(DATA_DIR, fname)
         with open(fpath) as f:
@@ -69,7 +82,7 @@ def handle_dynasty():
 
 def statistic_relation():
     '''
-    社交关系
+    社交关系统计
     '''
     relations = set()
     relations_codes = set()
@@ -99,7 +112,7 @@ def statistic_relation():
                             relations_codes.add(person['AssocCode'])
                             tmp = (person['AssocName'], person['AssocCode'])
                             relations_c[tmp] += 1
-            except json.decoder.JSONDecodeError as e:
+            except json.decoder.JSONDecodeError:
                 error += 1
     print(len(relations), len(relations_codes), len(relations_c))
     print(relations)
@@ -238,7 +251,7 @@ def network_attribute_export(dy):
         node_list.append(node_attr)
 
     df = pd.DataFrame(node_list)
-    df.to_csv(dynasty + '.csv')
+    df.to_csv('./csv'+ dynasty + '.csv')
 
 def compute_network_info(dy):
     file_path = './vis_datas/'+dy[1]+'.gexf'
@@ -275,21 +288,21 @@ def compute_centrality(dy):
     result = defaultdict(list)
     degree_cen = nx.degree_centrality(g)
     for i in degree_cen:
-        result[i].append(i)
+        result[i].append(degree_cen[i])
     print('degree done')
     bet_cen = nx.betweenness_centrality(g)
     for i in bet_cen:
-        result[i].append(i)
+        result[i].append(bet_cen[i])
     print('betweenness done')
     
     close_cen =  nx.closeness_centrality(g)
     for i in close_cen:
-        result[i].append(i)
+        result[i].append(close_cen[i])
     print('closeness done')
 
     eig_cen = nx.eigenvector_centrality(g)
     for i in eig_cen:
-        result[i].append(i)
+        result[i].append(eig_cen[i])
     print('eigenvector done')
     
     with open('./results/{}_centrality.json'.format(dy_pingyin), 'w') as f:
@@ -418,9 +431,11 @@ def signed_graph_extract(dy):
 
 
 def main():
+    # step1 dyansty extraction
     # handle_dynasty()
-    # test()
+    # step2 relationship statistic
     # statistic_relation() 
+    
     # for dy in dylist:
     # compute_network_info(dylist[0])
     signed_graph_extract(dylist[1])

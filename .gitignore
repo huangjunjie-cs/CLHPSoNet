@@ -8,3 +8,6 @@ venv/
 *.db
 vis_datas/
 *.gephi
+__pycache__/
+vis_system/
+

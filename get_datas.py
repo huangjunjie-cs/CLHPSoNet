@@ -1,4 +1,10 @@
-#coding=utf8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+'''
+get datas by query api, save to data directory
+'''
 import os
 import json
 import threading
@@ -9,8 +15,8 @@ from multiprocessing.dummy import Pool as Threadpool
 
 lock1 = threading.Lock()
 
-DATA_DIR = './datas/'
-WRONG_LOG = 'error.log'
+DATA_DIR = './datas/datas'
+WRONG_LOG = './logs/error.log'
 END_NUM = 445000
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
@@ -23,8 +29,22 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
 }
 
+if not os.path.exists('datas'):
+    os.mkdir('datas')
+
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+
+if not os.path.exists(DATA_DIR):
+    os.mkdir(DATA_DIR)
+
 
 def req_page(page = 1):
+    """requests api for page
+    
+    Keyword Arguments:
+        page {int} -- [description] (default: {1})
+    """
     url = 'https://cbdb.fas.harvard.edu/cbdbapi/person.php?id={}&o=json'.format(page)
     result = os.path.join(DATA_DIR, '{}.json'.format(page))
     if not os.path.exists(result):
