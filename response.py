@@ -9,7 +9,7 @@ from flask_cors import  *
 from flask import request
 from .partition import get_subgraph
 app = Flask(__name__)
-CORS(app,supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 default_people = ['1384', '3762', '1493', '3767', '1762', '7364']
 default_algo = '1'

@@ -1,9 +1,9 @@
-# Computing Len for exploring the historical people social network
+# Computing Len for Exploring the Historical People’s Social Network
 
 ## [Demo Online](http://h12345jack.github.io/CLSRHF)
 
 Here is demo for Eight Great Prose Masters of the Song, which is just frontend UI without server.
-If you want run the server, plz read here.
+If you want run the server, plz read [here](./setup.md).
 
 ## System setup
 
@@ -21,13 +21,18 @@ npm run start
 
 ## Data collection
 
-using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas
+using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas, you can use get_datas.py to collect data.
 
 ```
-python handle_data.py
+python get_datas.py
 ```
 
-## Data description 
+## CLHPSoNet Workflow
+![](./imgs/framework.png)
+
+> It includes signed graph modeling, subgraph extraction, computing and visualize. The final output is consists of three parts: Top and Central People, Direct Relationship and Group Partition. 
+
+
 
 <!-- Average Clustering Coefficient: 0.331
 Total triangles: 15441
@@ -84,7 +89,11 @@ average_shortest_path_length 7.7171639180409795
 
 [gephi和networkx结果不同的原因](https://stackoverflow.com/questions/41926514/average-clustering-coefficient-for-graph) -->
 
-## Code Organization
+## Citation
+
+```
+
+```
 
 
 
