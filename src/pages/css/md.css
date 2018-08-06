@@ -1,0 +1,7 @@
+@import  './github-md.css';
+
+.markdown-body img{
+    margin-left: 5%;
+    margin-right: auto;
+    width: 90%;
+}

@@ -1,0 +1,32 @@
+{
+  "name": "cbdb_sign_system",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://h12345jack.github.io/CLSRHF",
+  "dependencies": {
+    "ant-design-pro": "^2.0.0-beta.2",
+    "antd": "^3.4.4",
+    "axios": "^0.18.0",
+    "d3": "^4.0.0",
+    "enquire.js": "^2.1.6",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.0",
+    "mobx": "^4.2.0",
+    "mobx-react": "^5.0.0",
+    "npm": "^6.0.0",
+    "prettier": "^1.12.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-katex": "^2.0.2",
+    "react-markdown": "^3.3.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
