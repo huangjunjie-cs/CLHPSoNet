@@ -157,7 +157,12 @@ def statistic_social_status():
                             social_status_dict[tmp3] += 1
             except json.decoder.JSONDecodeError as e:
                     error += 1
-    print(entry_dict, social_status_dict)
+    with open('entry-dict.json', 'w') as f:
+        f.write(json.dumps(entry_dict))
+    print('entry status done!')
+    with open('social-status-dict.json', 'w') as f:
+        f.write(json.dumps(social_status_dict))
+    print('social-status done!')
     
 def network_extract(dy):
     '''
@@ -438,10 +443,10 @@ def main():
     
     # for dy in dylist:
     # compute_network_info(dylist[0])
-    signed_graph_extract(dylist[1])
+    # signed_graph_extract(dylist[1])
     #G = network_extract(dylist[1])
     #nx.write_gexf(G, './vis_datas/{}.gexf'.format(dylist[1][1]))
-    
+    statistic_social_status()
     
             
 

@@ -11,3 +11,7 @@ vis_datas/
 __pycache__/
 vis_system/
 
+results/
+
+
+*.json
