@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Computing Len for Exploring the Historical People's Social Network
+=======
+# Computing Len for Exploring the Historical People’s Social Network
+>>>>>>> d8ef2c27c77a162291132dab75ec4dda375a04b0
 
 ## [Demo Online](http://huangjunjie95.github.io/CLHPSoNet)
 
@@ -21,13 +25,18 @@ npm run start
 
 ## Data collection
 
-using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas
+using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas, you can use get_datas.py to collect data.
 
 ```
-python handle_data.py
+python get_datas.py
 ```
 
-## Data description 
+## CLHPSoNet Workflow
+![](./imgs/framework.png)
+
+> It includes signed graph modeling, subgraph extraction, computing and visualize. The final output is consists of three parts: Top and Central People, Direct Relationship and Group Partition. 
+
+
 
 <!-- Average Clustering Coefficient: 0.331
 Total triangles: 15441
@@ -84,7 +93,11 @@ average_shortest_path_length 7.7171639180409795
 
 [gephi和networkx结果不同的原因](https://stackoverflow.com/questions/41926514/average-clustering-coefficient-for-graph) -->
 
-## Code Organization
+## Citation
+
+```
+
+```
 
 
 
