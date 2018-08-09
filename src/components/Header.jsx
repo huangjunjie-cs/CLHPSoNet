@@ -1,11 +1,11 @@
 import React from 'react';
-import { Layout, Menu, Row, Col, Icon, Popover, Input, Badge, Button } from 'antd';
+import { Menu, Row,  Icon, Popover } from 'antd';
 import { Link } from 'react-router-dom';
 import { enquireScreen } from 'enquire-js';
 
-import './header.css';
+import './css/header.css';
 
-const { Header, Content, Footer } = Layout;
+// const { Header, Content, Footer } = Layout;
 
 let isMobile = false;
 enquireScreen((b) => {
@@ -63,16 +63,16 @@ export default class MyHeader extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="/introduction">
-              <Link to="/introduction">Introduction</Link>
+              <Link to="/introduction">简介</Link>
               </Menu.Item>
             <Menu.Item key="/dataset">
-              <Link to="/dataset">Data Description</Link>
+              <Link to="/dataset">数据</Link>
             </Menu.Item>
             <Menu.Item key="/instructions">
-              <Link to="instructions">Instructions</Link>
+              <Link to="instructions">使用说明</Link>
             </Menu.Item>
             <Menu.Item key="/signed-graph">
-              <Link to="signed-graph">Signed Graph Analysis</Link>
+              <Link to="signed-graph">正负网络分析系统</Link>
             </Menu.Item>
           </Menu>]
 

@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-import { Card, Col, Row } from 'antd';
+import {  Col, Row } from 'antd';
 import { Tabs } from 'antd';
 
 import TopPeople from './outputs/part1/topPeople';

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from 'antd';
 import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter, Route, Switch, Media } from 'react-router-dom'
+import { BrowserRouter, Route, Switch} from 'react-router-dom'
 import MyHeader from './components/Header';
 import GlobalFooter from 'ant-design-pro/lib/GlobalFooter';
 

@@ -7,7 +7,6 @@ import Input from '../components/input';
 import Output from '../components/output';
 
 import './css/md.css';
-import 'katex/dist/katex.min.css';
 
 const title_md = `
 ## Signed Graph Analysis for Song Dynasty
