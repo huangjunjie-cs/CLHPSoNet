@@ -157,7 +157,7 @@ def statistic_social_status():
                             social_status_dict[tmp3] += 1
             except json.decoder.JSONDecodeError as e:
                     error += 1
-    with open('entry-dict.json', 'w') as f:
+    with open('./results/entry-dict.json', 'w') as f:
         f.write(json.dumps(entry_dict))
     print('entry status done!')
     with open('social-status-dict.json', 'w') as f:
