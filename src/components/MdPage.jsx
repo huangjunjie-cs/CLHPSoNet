@@ -34,7 +34,7 @@ class MdPage extends Component{
         }else{
             related_links = {...related_links,[items]: Object.keys(related_links).length + 1};
             return [<a href={href}>{title}</a>, <sup><a href={'#' + items}>{related_links[items]}</a></sup>]
-        };    
+        }   
     }
 
     addCite = (children, ...props) =>{

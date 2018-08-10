@@ -9,7 +9,7 @@ import Output from '../components/output';
 import './css/md.css';
 
 const title_md = `
-## Signed Graph Analysis for Song Dynasty
+## 宋代人物正负关系分析
 `
 
 class SignedGraph extends Component {
@@ -20,6 +20,10 @@ class SignedGraph extends Component {
         disabled: false
     }
 
+    // componentDidMount(){
+       
+    // }
+
 
     render() {
         return <div> 
@@ -29,13 +33,13 @@ class SignedGraph extends Component {
                     <div style={{marginLeft: 20, marginRight: 20, marginTop: 20, padding:10,background: '#ECECEC'}}>
                         <Row gutter={20}>
                                 <Col md={6} xs={24}>
-                                    <Card title='Input'>
+                                    <Card title='输入'>
                                         <Input />
                                     </Card>
                                 </Col>
                                 
                                 <Col md={18} xs={24}>
-                                    <Card title='Output'>
+                                    <Card title='输出'>
                                         {this.state.disabled 
                                             ? <div style={{minHeight:180, textAlign:'center'}}>
                                                 <p style={{marginTop:150}}>

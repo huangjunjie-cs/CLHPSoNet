@@ -12,15 +12,13 @@ const FormItem = Form.Item;
 
 const children = [];
 const nodes = [
-  ['Ouyang Xiu','1384'],
-  ['Su Xun','3762'],
-  ['Su Zhe','1493'],
-  ['Su Shi','3767'],
-  ['Wang Anshi','1762'],
-  ['Zeng Gong','7364'],
+  ['欧阳修','1384'],
+  ['苏洵','3762'],
+  ['苏辙','1493'],
+  ['苏轼','3767'],
+  ['王安石','1762'],
+  ['曾巩','7364'],
 ]
-
-
 
 class NameInput extends Component {
 
@@ -51,11 +49,18 @@ class NameInput extends Component {
   }
 
   handleSubmit = ()=>{
+    console.log()
+  }
 
+  handleReset = ()=>{
+    this.setState({
+      people: ['1384', '3762','1493','3767', '1762', '7364'],
+      algorithm: 1,
+      depth: 0
+    });
   }
 
   componentWillMount(){
-
     for (let i = 0; i < nodes.length; i++) {
       children.push(<Option key={nodes[i][1]}>{nodes[i][0]}</Option>);
     }
@@ -67,16 +72,16 @@ class NameInput extends Component {
       height: '30px',
       lineHeight: '30px',
     };
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 18 },
-      },
-    };
+    // const formItemLayout = {
+    //   labelCol: {
+    //     xs: { span: 24 },
+    //     sm: { span: 6 },
+    //   },
+    //   wrapperCol: {
+    //     xs: { span: 24 },
+    //     sm: { span: 18 },
+    //   },
+    // };
     return (<div>
         <Form onSubmit={this.handleSubmit}>
           <FormItem label="People">
@@ -99,7 +104,7 @@ class NameInput extends Component {
             <InputNumber
                 min={0}
                 max={3}
-                style={{ width: '100%' }}
+                style={{ width: '80%', marginLeft: '20%' }}
                 value={this.state.depth}
                 onChange={this.handleDepthChange}
               />
@@ -118,7 +123,7 @@ class NameInput extends Component {
               <Button type="primary">CONFIRM</Button>
             </Col>
             <Col span={8} offset={8}>
-              <Button>RESET</Button>
+              <Button onClick={this.handleReset}>RESET</Button>
             </Col>
             </Row>
         </Form>

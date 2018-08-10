@@ -26,3 +26,9 @@
 .node .selected {
   stroke: black;
 }
+
+.node :hover{
+  stroke: yellow;
+  stroke-opacity: 0.6;
+
+}

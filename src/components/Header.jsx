@@ -37,8 +37,6 @@ export default class MyHeader extends React.Component {
         });
     }
 
-    component
-
     componentDidMount(){
       enquireScreen((b) => {
         this.setState({
@@ -53,13 +51,13 @@ export default class MyHeader extends React.Component {
         defaultKey = defaultKey.length > 1 ? defaultKey : '/introduction';
         const menuMode = this.state.isMobile ? 'inline' : 'horizontal';
         const menu = [
-          <div className="logo"/>
+          <div className="logo" key="logo"/>
           ,<Menu
             theme="dark"
             id="nav"
             key="nav"
             mode={menuMode}
-            defaultSelectedKeys={defaultKey}
+            defaultSelectedKeys={[defaultKey]}
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="/introduction">
