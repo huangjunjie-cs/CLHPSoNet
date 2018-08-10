@@ -79,23 +79,21 @@ def naive_plot():
     '''
     gaints = ['1384', '3762', '1493', '3767', '1762', '7364']
     # gaints = ['8175', '8008']
-        
+
     sub_g = get_subgraph(node_lists=gaints, depth=0, graph_path='song-pos.gexf')
     people_df = pd.read_csv('./csv/宋.csv')
-    # print(people_df[(people_df.nid == int(1384))])
-    # print(people_df.nid == '1384')
-    # attrs = dict()
-    # edge_attrs = dict()
-    # for n in sub_g.nodes():
-    #     # attrs[n] = people_df[people_df.nid == int(n)].to_dict()
-    #     # n['name'] = 'name'
-    #     name = people_df[people_df.nid == int(n)]['ChName']
-    #     print(name)
-    #     attrs[n]= name.values[0]
-    # for u, v, d in sub_g.edges(data=True):
-    #     if d['weight'] != 0:
-    #         edge_attrs[(u, v)] = d['weight']
-    # print(edge_attrs)
+    attrs = dict()
+    edge_attrs = dict()
+    for n in sub_g.nodes():
+        # attrs[n] = people_df[people_df.nid == int(n)].to_dict()
+        # n['name'] = 'name'
+        name = people_df[people_df.nid == int(n)]['ChName']
+        print(name)
+        attrs[n]= name.values[0]
+    for u, v, d in sub_g.edges(data=True):
+        if d['weight'] != 0:
+            edge_attrs[(u, v)] = d['weight']
+    print(attrs, 96)
     G = sub_g
     e_pos = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] > 0]
     e_neg = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] < 0]
@@ -115,16 +113,16 @@ def naive_plot():
         G.node[n]['name'] = n
     d = json_graph.node_link_data(G) # node-link format to serialize
     # write json
-    json.dump(d, open('force/force.json','w'))
-    # nx.draw_networkx_nodes(G, pos, node_size=10)
-    # nx.draw_networkx_edges(G, pos, edgelist=e_pos,
-    #                    width=1, edge_color='g',alpha=0.5)
-    # nx.draw_networkx_edge_labels(G, pos,edge_labels=edge_attrs, edge_color='k')
-    # nx.draw_networkx_edges(G, pos, edgelist=e_neg,
-    #                    width=1, edge_labels=edge_attrs, edge_color='r', style='dashed')
-    # nx.draw_networkx_labels(G, pos, labels=attrs, font_size=20, font_color='b',font_family='simhei')
-    # plt.axis('off')
-    # plt.show()
+    # json.dump(d, open('force/force.json','w'))
+    nx.draw_networkx_nodes(G, pos, node_size=10)
+    nx.draw_networkx_edges(G, pos, edgelist=e_pos,
+                       width=1, edge_color='g',alpha=0.5)
+    nx.draw_networkx_edge_labels(G, pos,edge_labels=edge_attrs, edge_color='k')
+    nx.draw_networkx_edges(G, pos, edgelist=e_neg,
+                       width=1, edge_labels=edge_attrs, edge_color='r', style='dashed')
+    nx.draw_networkx_labels(G, pos, labels=attrs, font_size=20, font_color='b',font_family='simhei')
+    plt.axis('off')
+    plt.show()
 
 def layer_partition():
     sub_g = get_subgraph(node_lists = ['1384', '3762', '1493', '3767', '1762', '7364'], depth=0)
@@ -218,8 +216,8 @@ def main():
     # sub_g = get_subgraph(node_lists=gaints, depth=0, graph_path='song-signed.gexf')
     
     # get_top_people(sub_g, 20)
-    # naive_plot()
-    layer_partition()
+    naive_plot()
+    # layer_partition()
     
     # graphml_path = os.path.join(VIS_DATA_DIR, 'song-tmp.graphml')
     # nx.write_graphml(sub_g, graphml_path)
