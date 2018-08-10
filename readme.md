@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # Computing Len for Exploring the Historical People's Social Network
-=======
-# Computing Len for Exploring the Historical People’s Social Network
->>>>>>> d8ef2c27c77a162291132dab75ec4dda375a04b0
 
 ## [Demo Online](http://huangjunjie95.github.io/CLHPSoNet)
 
