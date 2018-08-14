@@ -6,7 +6,6 @@ const intro_md = `
 
 ## 简介
 
-
 众所周知，显微镜可以帮助生物科学家更好地观察细胞的内部结构。
 而我们的应用希望能够帮助历史研究人员或者历史爱好者不仅关注特定研究人物的关系，而且要认识到这些人物在整个大型社交网络中的作用，我们希望它能够像某些社会问题的计算镜头一样工作。
 
@@ -58,6 +57,35 @@ const intro_md = `
 正负关系网络是指网络的边包括正向的关系(如信任、朋友)和负向的关系(如不信任、敌人)。
 而这样的网络事实上存在两种力量（正边友好，负边对立）的对立和统一。结构平衡是理解两种力量之间的张力的基本框架。
 
+#### 中心度计算
+
+
+在图论和网络分析中，中心性是识别图中重要的节点的一个重要指标。 应用包括识别社交网络中最有影响力的人，互联网或城市网络中的关键基础设施节点，以及疾病的超级传播者等。
+中心性的概念最初是在社会网络分析中发展起来的，用于衡量中心性的许多术语反映了它们的社会学起源。 在系统中，我们实现了Degree Centrality, Betweenness Centrality, Closeness Centrality and Eigenvector Centrality。
+对于一个图$G=(V,E)$, 对于节点$v$各种中心性定义如下：
+
+##### Degree Centrality
+
+<equation>C_d(v) = \\frac{deg(v)}{|V| - 1}</equation>
+其中，$deg(v)$ 是节点$v$的度.
+
+##### Betweenness Centrality
+
+<equation>C_b(v) = \\sum \\frac{\\sigma(s,t|v)}{\\sigma(s,t)}</equation>
+
+其中，$\\sigma(s,t)$是$(s,t)$的路径，$\\sigma(s,t|v)$是节点$v$通过$(s,t)$的路径数。
+
+
+##### Closeness Centrality
+<equation>C_c(v) = \\frac{n-1}{|V|-1} \\frac{n-1}{\\sum d(v,u)}</equation>
+
+$d(v,u)$是节点$v$和$u$的最短路径，$n$是可达路径。
+
+##### Eigenvector Centrality
+计算：
+<equation> Ax = \\lambda x</equation>
+$A$是图$G$的邻接矩阵，$\\lambda是特征值$
+
 #### 结构平衡理论
 
 结构平衡原理的基础是社会心理学理论，源于上世纪 40 年代赫德尔的工作。根据这种推理，称一个或三个“+”形成的三角关系为平衡关系，因为它们没有这些不稳定性因素，而零个或两个“+”形成的三角关系视为不平衡关系。结构平衡理论认为，由于不平衡三角关系是心理压力和心理失调的缘由，人们在人际关系中总是试图让它们尽量地少。因此在现实社会中， 不平衡三角关系要比平衡三角关系少。
@@ -83,7 +111,7 @@ const intro_md = `
 
 随着网络表示学习的发展，研究人员开始使用机器学习方法来学习给定网络的节点的低维矢量表示<cite>Wang S, Tang J, Aggarwal C, Chang Y, Liu H. Signed network embedding in social media. InProceedings of the 2017 SIAM international conference on data mining 2017 Jun 30 (pp. 327-335). Society for Industrial and Applied Mathematics.</cite>，可以使用网络表征学习然后进行聚类分析。在本系统中，可以选择不同的算法计算不同的图划分结果。
 
-<img alt="图划分的形式化定义"  width="50%" src="http://wx4.sinaimg.cn/large/006C73MUly1fu3ri63v19j30r20dt78f.jpg" />
+<img alt="图划分的形式化定义"  width="80%" src="http://wx4.sinaimg.cn/large/006C73MUly1fu3ri63v19j30r20dt78f.jpg" />
 
 
 `
@@ -92,6 +120,7 @@ const intro_md = `
 class Introduction extends React.Component {
 
     render(){
+        console.log(intro_md);
         return <MdPage md_content={intro_md} />;
     }
 }

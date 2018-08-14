@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { Divider } from 'antd';
-
+import { BlockMath } from 'react-katex';
 import './css/md.css';
+import 'katex/dist/katex.min.css';
+
 
 let citations = {};
 let related_links = {};
 let figures = {};
 let tables = {};
+let equations = {};
 
 class MdPage extends Component{
     state = {
@@ -69,6 +72,22 @@ class MdPage extends Component{
             </div>
     }
 
+    addEquations = ({children})=>{
+        const equ = children.join("");
+        console.log(equ, 77);
+        if(!(equ in equations)){
+            equations = {
+                ...equations,
+                [equ]: Object.keys(equations).length + 1
+            }
+        }
+        return <div style={{position: "relative"}}>
+                    <BlockMath>{equ}</BlockMath>
+                    <div style={{position: "absolute", top: '-2px', right: '5px'}}>({equations[equ]})</div>
+                </div>
+                
+    }
+
   
 
     addImage = ({children, ...props}) => {
@@ -103,7 +122,8 @@ class MdPage extends Component{
                         img: this.addImage,
                         cite: this.addCite,
                         table: this.addTable,
-                        tablecaption: this.addTableCaption
+                        tablecaption: this.addTableCaption,
+                        equation: this.addEquations,
                     }
                 }}  
             />
