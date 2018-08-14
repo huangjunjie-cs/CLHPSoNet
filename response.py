@@ -10,9 +10,11 @@ import requests
 
 from flask import  Flask
 from flask_cors import  *
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 # from partition import get_subgraph
-app = Flask(__name__)
+from functions import compute as compute_it 
+
+app = Flask(__name__, template_folder = 'website/build', static_folder='website/build/static')
 CORS(app, supports_credentials=True)
 
 DATA_DIR = './datas/datas'
@@ -21,14 +23,13 @@ default_people = ['1384', '3762', '1493', '3767', '1762', '7364']
 default_algo = '1'
 
 algo_dict = {
+
 }
 
 
-def get_nodes(node_list):
-    resuls = {}    
-    return results
-
-
+@app.route('/', methods=['GET'])
+def index():
+    return render_template("index.html")
 
 @app.route('/api/compute', methods=['POST'])
 def compute():
@@ -39,9 +40,13 @@ def compute():
     """
     if request.method =='POST':
         req = request.json
-        nodes = req.get('people', default_people)
+        node_list = req.get('people', default_people)
         algorithm = req.get('algorithm', default_algo)
         depth = req.get('depth', 0)
+        print(req, depth, 46)
+        depth = int(depth)
+        result = compute_it(node_list, depth)
+        return jsonify(result)
     else:
         return "Hello"
 

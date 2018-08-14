@@ -85,7 +85,7 @@ def get_topPeople(dynasty = 'song', topk = 10, sort_by = 0):
         return [i[1] for i in res]
 
 
-def get_subgraph(node_lists = ['1762'], depth = 3, graph_path='song-signed.gexf'):
+def get_subgraph(node_list = ['1762'], depth = 3, graph_path='song-signed.gexf'):
     '''
     node-list 是起点节点，
     depth是深度
@@ -101,8 +101,8 @@ def get_subgraph(node_lists = ['1762'], depth = 3, graph_path='song-signed.gexf'
         g_edges_dict[n1].add(n2)
         g_edges_dict[n2].add(n1)
     # print(len(g_edges_dict['1762']))
-    subgraph_nodes = set(node_lists)
-    now_nlists = list(node_lists)
+    subgraph_nodes = set(node_list)
+    now_nlists = list(node_list)
     k = depth
     while k:
         k -= 1
@@ -168,7 +168,7 @@ def naive_plot(node_list, cate="1"):
         '3': 'song-signed.gexf'
     }
     graph_path = graph_path_dict[cate]
-    sub_g = get_subgraph(node_lists=node_list, depth=0, graph_path=graph_path)
+    sub_g = get_subgraph(node_list=node_list, depth=0, graph_path=graph_path)
     attrs , centrality_attrs = get_property(sub_g)
     e_pos = [(u, v) for (u, v, d) in sub_g.edges(data=True) if d['weight'] > 0]
     e_neg = [(u, v) for (u, v, d) in sub_g.edges(data=True) if d['weight'] < 0]
@@ -192,10 +192,7 @@ def naive_plot(node_list, cate="1"):
     return d, nodes
 
 
-def layer_partition(node_lists):
-    # sub_g = get_subgraph(node_lists=node_lists, depth=2)
-    #8175
-    sub_g = get_subgraph(node_lists = ['8175', '8008'], depth=1)
+def layer_partition(sub_g):
     
     graphml_path = os.path.join(VIS_DATA_DIR, 'song-tmp.graphml')
     nx.write_graphml(sub_g, graphml_path)
@@ -233,28 +230,77 @@ def layer_partition(node_lists):
     return node_partition2
     
 
-def generate_group_results(node_lists = ['1384', '3762', '1493', '3767', '1762', '7364'], depth = 0):
-    sub_g = get_subgraph(node_lists, depth = 0)
+def generate_group_results(node_list = ['1384', '3762', '1493', '3767', '1762', '7364'], depth = 0):
+    print(node_list, depth)
+    sub_g = get_subgraph(node_list, depth)
     # 得倒聚类结果，然后挑选每个组里前depth * 5
-    results = layer_partition
+    results = layer_partition(sub_g)
+    attrs , centrality_attrs = get_property(sub_g)
+    groups = defaultdict(list)
+    for i in results:
+        groups[results[i]].append(i)
+    allow_groups = set([results[i] for i in node_list])
+    res_groups = defaultdict(list)
+    for group in groups:
+        if group in allow_groups:
+            group_i = groups[group]
+            some_group_people = set()
+            group_i_sorted = sorted(group_i, key=lambda x:centrality_attrs[x]['c1'], reverse=True)
+            # 
+            for node in node_list:
+                if node in group_i:
+                    some_group_people.add(node)
 
+            for node in group_i_sorted[:5*(depth+1)]:
+                some_group_people.add(node)
+            res_groups[group] = list(some_group_people)
+    print(allow_groups, len(res_groups))
 
+    all_nodes = [] 
+    for group in res_groups:
+        for node in res_groups[group]:
+            tmp =  {
+                "group": group,
+                "id": node,
+                "label": node,
+                "name": centrality_attrs[node]["ChName"],
+                "data": centrality_attrs[node]
+            }
+            all_nodes.append(tmp)
+    all_node_list = [i["id"] for i in all_nodes]
+    res_sub_g = get_subgraph(all_node_list, depth = 0)
+    result_json = json_graph.node_link_data(res_sub_g)
+    for link in result_json["links"]:
+        print(link)
+        link['value'] = link['weight']
+    result_json["nodes"] = all_nodes
+    return result_json
 
+def generate_direct_results(node_list):
+    links1, nodes1 = naive_plot(node_list)
+    links2, nodes2 = naive_plot(node_list, cate='2')
+    links3, nodes3 = naive_plot(node_list, cate='3')
+    if (json.dumps(nodes1) != json.dumps(nodes2)):
+        print('sth not good!')
+    return links1['links'], links2['links'], links3['links'], nodes1
+
+def compute(node_list, depth=0):
+    result_json = generate_group_results(node_list, depth)
+    links1, links2, links3, nodes = generate_direct_results(node_list)
+    datas = {}
+    datas["links1"] =  links1
+    datas["links2"] =  links2
+    datas["links3"] =  links3
+    datas["nodes"] =  nodes
+    datas["link_datas"] = result_json
+    return datas
 
 def main():
     node_list = ['1384', '3762', '1493', '3767', '1762', '7364']
-    links1, nodes = naive_plot(node_list)
-    print(nodes)
-    links2, nodes = naive_plot(node_list, cate='2')
-    print(nodes)
-    links3, nodes = naive_plot(node_list, cate='3')
-    print(nodes)
-    # sub_g = get_subgraph(node_lists = ['8175', '8008'], depth=0)
-    # sub_g1 = json_graph.node_link_data(sub_g)
-    # print(sub_g1)
-    # results = layer_partition(node_list)
-    # print(results)
-
+    # result = compute(node_list, 0)
+    links1, links2, links3, nodes1 = generate_direct_results(node_list)
+    # print(result)
+    print(links1)
 
 if __name__ == '__main__':
     main()
