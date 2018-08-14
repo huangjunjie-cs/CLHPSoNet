@@ -14,6 +14,7 @@ pip install -r requirements.txt
 ### Node9
 
 ```
+git checkout -b frontend origin/frontend
 npm install 
 npm run start
 ```
