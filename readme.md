@@ -3,7 +3,6 @@
 ## [Demo Online](http://h12345jack.github.io/CLHPSoNet)
 
 Here is demo for Eight Great Prose Masters of the Song, which is just frontend UI without server.
-If you want run the server, plz read [here](./setup.md).
 
 ## System setup
 
@@ -21,7 +20,7 @@ npm run start
 
 ## Data collection
 
-using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas, you can use get_datas.py to collect data.
+using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas, you can use get_datas.py to collect data. and mv data to ```./datas/datas```
 
 ```
 python get_datas.py
@@ -31,7 +30,6 @@ python get_datas.py
 ![](./imgs/framework.png)
 
 > It includes signed graph modeling, subgraph extraction, computing and visualize. The final output is consists of three parts: Top and Central People, Direct Relationship and Group Partition. 
-
 
 
 <!-- Average Clustering Coefficient: 0.331
@@ -92,6 +90,7 @@ average_shortest_path_length 7.7171639180409795
 ## Citation
 
 ```
+coming soon
 
 ```
 
