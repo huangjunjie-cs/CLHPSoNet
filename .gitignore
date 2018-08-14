@@ -12,6 +12,6 @@ __pycache__/
 vis_system/
 
 results/
-
+!csv/*
 
 *.json

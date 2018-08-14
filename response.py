@@ -11,7 +11,7 @@ import requests
 from flask import  Flask
 from flask_cors import  *
 from flask import request, jsonify
-from partition import get_subgraph
+# from partition import get_subgraph
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
@@ -23,19 +23,10 @@ default_algo = '1'
 algo_dict = {
 }
 
-def get_node_lists(node_list):
-    results = [
-        ['3762', [-0.49999989, -0.86602541]], 
-        ['1762', [0.49999998, 0.86602546]], 
-        ['7364', [-9.99999970e-01, -6.29182054e-08]], 
-        ['1493', [1.00000000e+00, 2.45045699e-08]], 
-        ['3767', [-0.50000004,  0.8660254 ]], 
-        ['1384', [ 0.49999992, -0.86602541]]
-    ]
-    return results
 
-def get_links(cate=1, node_list):
-    pass
+def get_nodes(node_list):
+    resuls = {}    
+    return results
 
 
 

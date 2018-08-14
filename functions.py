@@ -22,7 +22,7 @@ from matplotlib.font_manager import FontProperties
 from googletrans import Translator
 
 CENTRALITY_DIR = 'centrality'
-VIS_DATA_DIR = './vis_datas'
+VIS_DATA_DIR = './csv'
 
 def check_contain_chinese(text):
     """check if need to translated
@@ -124,6 +124,33 @@ def get_subgraph(node_lists = ['1762'], depth = 3, graph_path='song-signed.gexf'
     return sub_g
 
 
+def get_property(sub_g) :
+    fname = os.path.join(VIS_DATA_DIR, 'song.csv')
+    people_df = pd.read_csv(fname)
+    attrs = dict()
+    centrality_attrs = dict()
+
+    with open('./centrality/song_centrality.json') as f:
+        json_data = json.load(f)
+    
+    for n in sub_g.nodes():
+        p = people_df[people_df.nid == int(n)]
+        name1 = p['ChName']
+        name2 = p['EngName']
+        attrs[n]= "".join(name1.values)
+
+        d = dict()
+        d["EngName"] = "".join(name2.values)
+        d["ChName"] = "".join(name1.values)
+        d["PersonID"] = n
+        pku = json_data[n]
+        d["c1"] = round(pku[0], 3)
+        d["c2"] = round(pku[1], 3)
+        d["c3"] = round(pku[2], 3)
+        d["c4"] = round(pku[3], 3)
+        centrality_attrs[n] = d
+    return attrs, centrality_attrs
+
 
 def naive_plot(node_list, cate="1"):
     '''
@@ -142,32 +169,10 @@ def naive_plot(node_list, cate="1"):
     }
     graph_path = graph_path_dict[cate]
     sub_g = get_subgraph(node_lists=node_list, depth=0, graph_path=graph_path)
-    people_df = pd.read_csv('./csv/宋.csv')
-    attrs = dict()
-    centrality_attrs = dict()
-
-    with open('./centrality/song_centrality.json') as f:
-        json_data = json.load(f)
-    for n in sub_g.nodes():
-        p = people_df[people_df.nid == int(n)]
-        name1 = p['ChName']
-        name2 = p['EngName']
-        attrs[n]= "".join(name1.values)
-
-        d = dict()
-        d["EngName"] = "".join(name2.values)
-        d["ChName"] = "".join(name1.values)
-        d["PersonID"] = n
-        pku = json_data[n]
-        d["c1"] = round(pku[0], 3)
-        d["c2"] = round(pku[1], 3)
-        d["c3"] = round(pku[2], 3)
-        d["c4"] = round(pku[3], 3)
-        centrality_attrs[n] = d
-    G = sub_g
-    e_pos = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] > 0]
-    e_neg = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] < 0]
-    pos = nx.circular_layout(G)
+    attrs , centrality_attrs = get_property(sub_g)
+    e_pos = [(u, v) for (u, v, d) in sub_g.edges(data=True) if d['weight'] > 0]
+    e_neg = [(u, v) for (u, v, d) in sub_g.edges(data=True) if d['weight'] < 0]
+    pos = nx.circular_layout(sub_g)
     # 为了保证画出来顺序是确定的，
     # print(pos.items())
     values = sorted(pos.items(), key = lambda x:x[1][1]/x[1][0], reverse=True)
@@ -179,26 +184,18 @@ def naive_plot(node_list, cate="1"):
     for index, i in enumerate(pos_key):
         pos[i] = values[index][1]
 
-    for n in G:
-        G.node[n]['name'] = n
-    d = json_graph.node_link_data(G) # node-link format to serialize
+    for n in sub_g:
+        sub_g.node[n]['name'] = n
+    d = json_graph.node_link_data(sub_g) # node-link format to serialize
     # print(d)
     # print(pos_values)
     return d, nodes
-    # nx.draw_networkx_nodes(G, pos, node_size=10)
-    # nx.draw_networkx_edges(G, pos, edgelist=e_pos,
-    #                    width=1, edge_color='g',alpha=0.5)
-    # nx.draw_networkx_edge_labels(G, pos,edge_labels=edge_attrs, edge_color='k')
-    # nx.draw_networkx_edges(G, pos, edgelist=e_neg,
-    #                    width=1, edge_labels=edge_attrs, edge_color='r', style='dashed')
-    # nx.draw_networkx_labels(G, pos, labels=attrs, font_size=20, font_color='b',font_family='simhei')
-    # plt.axis('off')
-    # plt.show()
+
 
 def layer_partition(node_lists):
-    sub_g = get_subgraph(node_lists=node_lists, depth=0)
+    # sub_g = get_subgraph(node_lists=node_lists, depth=2)
     #8175
-    #sub_g = get_subgraph(node_lists = ['8175', '8008'], depth=1)
+    sub_g = get_subgraph(node_lists = ['8175', '8008'], depth=1)
     
     graphml_path = os.path.join(VIS_DATA_DIR, 'song-tmp.graphml')
     nx.write_graphml(sub_g, graphml_path)
@@ -236,16 +233,28 @@ def layer_partition(node_lists):
     return node_partition2
     
 
+def generate_group_results(node_lists = ['1384', '3762', '1493', '3767', '1762', '7364'], depth = 0):
+    sub_g = get_subgraph(node_lists, depth = 0)
+    # 得倒聚类结果，然后挑选每个组里前depth * 5
+    results = layer_partition
+
+
+
 
 def main():
     node_list = ['1384', '3762', '1493', '3767', '1762', '7364']
-    # links1, nodes = naive_plot(node_list)
-    # print(nodes)
-    # links2, nodes = naive_plot(node_list, cate='2')
-    # print(nodes)
-    # links3, nodes = naive_plot(node_list, cate='3')
-    # print(nodes)
-    layer_partition(node_list)
+    links1, nodes = naive_plot(node_list)
+    print(nodes)
+    links2, nodes = naive_plot(node_list, cate='2')
+    print(nodes)
+    links3, nodes = naive_plot(node_list, cate='3')
+    print(nodes)
+    # sub_g = get_subgraph(node_lists = ['8175', '8008'], depth=0)
+    # sub_g1 = json_graph.node_link_data(sub_g)
+    # print(sub_g1)
+    # results = layer_partition(node_list)
+    # print(results)
+
 
 if __name__ == '__main__':
     main()
