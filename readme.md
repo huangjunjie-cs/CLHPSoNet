@@ -1,6 +1,6 @@
 # Computing Len for Exploring the Historical People's Social Network
 
-## [Demo Online](http://huangjunjie95.github.io/CLHPSoNet)
+## [Demo Online](http://h12345jack.github.io/CLHPSoNet)
 
 Here is demo for Eight Great Prose Masters of the Song, which is just frontend UI without server.
 If you want run the server, plz read [here](./setup.md).
