@@ -49,7 +49,8 @@ class NameInput extends Component {
   }
 
   handleSubmit = ()=>{
-    console.log()
+    const data = {...this.state};
+    this.props.handleSubmit(data);
   }
 
   handleReset = ()=>{
@@ -98,7 +99,7 @@ class NameInput extends Component {
           <FormItem label="Depth" >
           <Row>
             <Col span={16}>
-            <Slider min={1} max={4} onChange={this.handleDepthChange} value={this.state.depth} />
+            <Slider min={0} max={3} onChange={this.handleDepthChange} value={this.state.depth} />
             </Col>
             <Col span={8}>
             <InputNumber
@@ -120,7 +121,7 @@ class NameInput extends Component {
           </FormItem>
           <Row>
             <Col span={8}>
-              <Button type="primary">CONFIRM</Button>
+              <Button type="primary" onClick={this.handleSubmit}>CONFIRM</Button>
             </Col>
             <Col span={8} offset={8}>
               <Button onClick={this.handleReset}>RESET</Button>

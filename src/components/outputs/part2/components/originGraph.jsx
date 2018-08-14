@@ -11,7 +11,7 @@ class OriginGraph extends Component {
   }
 
   render(){
-    const {name_dict, node_list, links} = this.props;
+    const {name_dict, node_list, links, key} = this.props;
     const margin = 20;
     const width = 200;
     let node_dict = {}
@@ -81,8 +81,8 @@ class OriginGraph extends Component {
                 />
       }
     })
-    return <div>
-        <svg width={width + margin*2} height={width + margin*2}>
+    return <div key={key}>
+        <svg width={width + margin*2} height={width + margin*2} key={key}>
          <g transform={"translate(" + margin/2 + "," + margin/2 + ")"}>
           {lines}
           {nodes}

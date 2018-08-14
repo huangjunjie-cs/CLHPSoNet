@@ -60,7 +60,7 @@ const intro_md = `
 #### 中心度计算
 
 
-在图论和网络分析中，中心性是识别图中重要的节点的一个重要指标。 应用包括识别社交网络中最有影响力的人，互联网或城市网络中的关键基础设施节点，以及疾病的超级传播者等。
+在图论和网络分析中，[中心性](https://en.wikipedia.org/wiki/Centrality)是识别图中重要的节点的一个重要指标。 应用包括识别社交网络中最有影响力的人，互联网或城市网络中的关键基础设施节点，以及疾病的超级传播者等。
 中心性的概念最初是在社会网络分析中发展起来的，用于衡量中心性的许多术语反映了它们的社会学起源。 在系统中，我们实现了Degree Centrality, Betweenness Centrality, Closeness Centrality and Eigenvector Centrality。
 对于一个图$G=(V,E)$, 对于节点$v$各种中心性定义如下：
 
@@ -74,7 +74,6 @@ const intro_md = `
 <equation>C_b(v) = \\sum \\frac{\\sigma(s,t|v)}{\\sigma(s,t)}</equation>
 
 其中，$\\sigma(s,t)$是$(s,t)$的路径，$\\sigma(s,t|v)$是节点$v$通过$(s,t)$的路径数。
-
 
 ##### Closeness Centrality
 <equation>C_c(v) = \\frac{n-1}{|V|-1} \\frac{n-1}{\\sum d(v,u)}</equation>

@@ -59,17 +59,17 @@ const columns = [
 
 class TopPeople extends Component {
   render () {
-    const {pos_tie_num, neg_tie_num, node_num, centrality_data} = this.props;
-    console.log(centrality_data, 63);
+    // const {pos_tie_num, neg_tie_num, node_num, centrality_data} = this.props;
+    const {centrality_data} = this.props;
     return (
       <div>
 
-        <Divider orientation="left"><h3>Subgraph Info</h3></Divider>
+        {/* <Divider orientation="left"><h3>Subgraph Info</h3></Divider>
         <div>
           {`A total of ${node_num} nodes are included, `}
           {`The number of Positive tie: ${pos_tie_num}, `}
           {`The number of Negative tie: ${neg_tie_num}.   `}
-        </div>
+        </div> */}
         <Divider orientation="left">
           <h3>Centrality of given People</h3>
         </Divider>

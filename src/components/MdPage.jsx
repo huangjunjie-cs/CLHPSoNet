@@ -74,7 +74,6 @@ class MdPage extends Component{
 
     addEquations = ({children})=>{
         const equ = children.join("");
-        console.log(equ, 77);
         if(!(equ in equations)){
             equations = {
                 ...equations,

@@ -58,7 +58,7 @@ class ForchGraph extends Component {
 
     let parentHeight = parentWidth * 0.8;
 
-    const color = d3.scaleOrdinal(d3.schemeCategory20c);
+    const color = d3.scaleOrdinal(d3.schemeCategory20);
     
 
     console.log(margin_left_v, 76)
