@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = (process.env === 'dev'? 'http://localhost:5000': '/');
+const baseURL = (process.env.NODE_ENV === 'development'? 'http://localhost:5000': '/');
 const ax = axios.create({
     baseURL
 });
@@ -30,9 +30,9 @@ export function getXYRelationship(x, y){
 }
 
   
-export function compute_it({node_list, algorithm, depth}){
+export function compute_it({people, algorithm, depth}){
     const params = {
-        node_list,
+        people,
         algorithm,
         depth
     }

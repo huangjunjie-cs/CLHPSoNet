@@ -58,6 +58,11 @@ class Output extends Component {
         return node_list.length > 0 ?
                 (<div>
                 <Tabs tabPosition={"top"}>
+                    <TabPane tab="Top and Central People" key="0">
+                    <TopPeople
+                        centrality_data={centrality_data}
+                    />
+                    </TabPane>
                     <TabPane tab="Direct Relationship" key="1">
                     <DirectGraph 
                         name_dict={name_dict}
@@ -85,11 +90,7 @@ class Output extends Component {
                         </Col>
                     </Row>
                     </TabPane>
-                    <TabPane tab="Top and Central People" key="0">
-                    <TopPeople
-                        centrality_data={centrality_data}
-                    />
-                    </TabPane>
+                    
 
                     
                 </Tabs>

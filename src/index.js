@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from 'antd';
 import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter, Route, Switch} from 'react-router-dom'
+import { HashRouter, Route, Switch} from 'react-router-dom'
 import MyHeader from './components/Header';
 import GlobalFooter from 'ant-design-pro/lib/GlobalFooter';
 
@@ -34,9 +34,9 @@ const PrimaryLayout = () => (
   </div>
 )
 const App = () => (
-    <BrowserRouter>
+    <HashRouter>
       <PrimaryLayout />
-    </BrowserRouter>
+    </HashRouter>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { Divider } from 'antd';
 import { BlockMath } from 'react-katex';
+import md5 from 'blueimp-md5';
 import './css/md.css';
 import 'katex/dist/katex.min.css';
 
@@ -33,10 +34,10 @@ class MdPage extends Component{
         const title = children.children.join("")
         const items = title + "|" + href;
         if(items in related_links){
-            return [<a href={href}>{title}</a>,<sup><a href={'#' + items}>{related_links[items]}</a></sup>]
+            return [<a href={href}>{title}</a>,<sup><a href={'#' + md5(items)}>{related_links[items]}</a></sup>]
         }else{
             related_links = {...related_links,[items]: Object.keys(related_links).length + 1};
-            return [<a href={href}>{title}</a>, <sup><a href={'#' + items}>{related_links[items]}</a></sup>]
+            return [<a href={href}>{title}</a>, <sup><a href={'#' + md5(items)}>{related_links[items]}</a></sup>]
         }   
     }
 
@@ -48,7 +49,7 @@ class MdPage extends Component{
                 [ref]: Object.keys(citations).length + 1
             }
         }        
-        return [<a href={'#' + ref} className="done">[{citations[ref]}]</a>]
+        return [<a href={'#' + md5(ref)} className="done">[{citations[ref]}]</a>]
     }
 
     addTable = ({children, ...props}) =>{
@@ -132,7 +133,7 @@ class MdPage extends Component{
                 </Divider>
                 {Object.keys(related_links).map((item, index)=>{
                     const pku = item.split("|");
-                    return <p key={index} id={"#"+item}>{index + 1} : {pku[0]} {pku[1]}</p>
+                    return <p key={index} id={"#"+md5(item)}>{index + 1} : {pku[0]} {pku[1]}</p>
                 })}
             </div>
 
@@ -146,7 +147,7 @@ class MdPage extends Component{
 
                 {Object.keys(citations).map((item, index)=>{
                     const v = citations[item]
-                    return <p key={index} id={"#" + v}>[{index + 1}]: {item}</p>
+                    return <p key={index} id={"#" + md5(v)}>[{index + 1}]: {item}</p>
                 })}
             </div>
             }
