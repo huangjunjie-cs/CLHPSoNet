@@ -91,7 +91,14 @@ average_shortest_path_length 7.7171639180409795
 ## Citation
 
 ```
-coming soon
+@inproceedings{huang2018computing,
+  title={Computing Len for Exploring the Historical People's Social Network},
+  author={Huang, Junjie and Luo, Tiejian},
+  booktitle={2018 6th International Conference on Future Internet of Things and Cloud Workshops (FiCloudW)},
+  pages={95--101},
+  year={2018},
+  organization={IEEE}
+}
 
 ```
 
