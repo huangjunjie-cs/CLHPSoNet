@@ -1,4 +1,4 @@
-# Computing Len for Exploring the Historical People's Social Network
+# Computing Lens for Exploring the Historical People's Social Network
 
 ## [Demo Online](http://h12345jack.github.io/CLHPSoNet)
 
