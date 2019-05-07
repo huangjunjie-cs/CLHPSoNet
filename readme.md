@@ -6,7 +6,7 @@ Here is demo for Eight Great Prose Masters of the Song, which is just frontend U
 
 ## System setup
 
-### Python3.5
+### Python3.6
 ```
 pip install -r requirements.txt
 ```
@@ -21,13 +21,13 @@ npm run start
 
 ## Data collection
 
-using [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas, you can use get_datas.py to collect data. and mv data to ```./datas/datas```
+Use [cbdb api](https://projects.iq.harvard.edu/cbdb/cbdb-api) to get datas, you can use get_datas.py to collect data. and mv data to ```./datas/datas```
 
 ```
 python get_datas.py
 ```
 
-## CLHPSoNet Workflow
+## CLHPSoNet workflow
 ![](./imgs/framework.png)
 
 > It includes signed graph modeling, subgraph extraction, computing and visualize. The final output is consists of three parts: Top and Central People, Direct Relationship and Group Partition. 
