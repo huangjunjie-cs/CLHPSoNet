@@ -24,17 +24,17 @@ const intro_md = `
 | 清(1636, 1912) | 3,128 | 3,059  | 0.021 | 7.71 |
 
 
-![唐宋元明清各朝代人物度分布](http://ws4.sinaimg.cn/large/006C73MUgy1fu136utoazj31dv0qsq76.jpg)
+![唐宋元明清各朝代人物度分布](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/degree-distribution.jpg)
 
 从图和表中，可以看出，唐朝的数据不完整呢，而其他朝代的数据呈现幂律分布和小世界现象，由于宋代的数据相对比较完整。
 而且宋代历史上发生了两次有名的改革，会有更多的政治矛盾。我们选用宋代的数据进一步进行建模。使用[gephi](https://gephi.org/)进行可视化，以王安石为中心，可以发现其处于较为中心的位置，能够在很短的步数内到达其不认识的人物，如秦桧。
 
-![王安石（1021-1086）为中心点，人物出生于1000-1100。 这表明王安石可以以很少的步骤和秦桧（1091-1155）这样的人建立关系](http://ws3.sinaimg.cn/large/006C73MUgy1fu3us0xwacj30rg0msazt.jpg)
+![王安石（1021-1086）为中心点，人物出生于1000-1100。 这表明王安石可以以很少的步骤和秦桧（1091-1155）这样的人建立关系](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/wanganshi-center.jpg)
 
 ### 数据建模
 我们对边进行了统计分析，并且手工的按照历史材料的记载，对边的正负关系进行区分，规则如下图：
 
-![正负关系划分标准top10](http://wx3.sinaimg.cn/large/006C73MUly1fu3uvpdd8rj31gr0kn7dp.jpg)
+![正负关系划分标准top10](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/data-modeling.jpg)
 
 并且计算了相应的中心性，对那些重要的人物进行了离线统计分析，方便研究者调用。
 

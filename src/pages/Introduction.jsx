@@ -9,7 +9,7 @@ const intro_md = `
 众所周知，显微镜可以帮助生物科学家更好地观察细胞的内部结构。
 而我们的应用希望能够帮助历史研究人员或者历史爱好者不仅关注特定研究人物的关系，而且要认识到这些人物在整个大型社交网络中的作用，我们希望它能够像某些社会问题的计算镜头一样工作。
 
-![我们的框架，该框架包括3个部分：建模，子图提取，计算和可视化。最终的结果包括三个部分：中心度、直接关系和图划分](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/framework.png)
+![我们的框架，该框架包括3个部分：建模，子图提取，计算和可视化。最终的结果包括三个部分：中心度、直接关系和图划分](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/framework.png)
 
 ### 和传统的方法的比较
 
@@ -20,7 +20,7 @@ const intro_md = `
 3.  阅读海量的历史文献资料
 4.  将数据列表，撰写论文或书籍
 
-![关键词：expert, directly, literature, paper](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/tradition-methods.png)
+![关键词：expert, directly, literature, paper](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/tradition-methods.jpg)
 
 我们的方法的特点：
 
@@ -29,7 +29,7 @@ const intro_md = `
 3.  web系统产出结果
 4.  任何人都可以访问使用
 
-![关键词：database、network、web、accessiable](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/our-methods.png)
+![关键词：database、network、web、accessiable](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/our-methods.jpg)
 
 下表总结了我们的框架和传统的历史学研究的框架的异同。
 
@@ -50,7 +50,7 @@ const intro_md = `
 因此，我们设计了子图抽取的算法， 对于给定的研究对象，我们称为种子节点，然后设定宽度，从种子节点进行宽度优先搜索。
 得到包含种子节点的子图，我们对于该子图的研究既考虑了研究对象，也考虑了研究对象的网络的影响。
 
-<img width="50%" alt="子图抽取算法" src="https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/subgraph-extraction" />
+<img width="50%" alt="子图抽取算法" src="https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/subgraph-extraction.jpg" />
 
 ### 正负关系网络相关理论<cite>大卫, 伊斯利, 乔恩. 克莱因伯格, 著. 网络, 群体与市场. 2011.</cite>
 
@@ -89,7 +89,7 @@ $A$是图$G$的邻接矩阵，$\\lambda是特征值$
 
 结构平衡原理的基础是社会心理学理论，源于上世纪 40 年代赫德尔的工作。根据这种推理，称一个或三个“+”形成的三角关系为平衡关系，因为它们没有这些不稳定性因素，而零个或两个“+”形成的三角关系视为不平衡关系。结构平衡理论认为，由于不平衡三角关系是心理压力和心理失调的缘由，人们在人际关系中总是试图让它们尽量地少。因此在现实社会中， 不平衡三角关系要比平衡三角关系少。
 
-![一个或三个“+”形成的三角关系为平衡关系，而零个或两个“+”形成的三角关系视为不平衡关系](http://wx3.sinaimg.cn/large/006C73MUly1fqtn6jhcapj30o007ewfg.jpg)
+![一个或三个“+”形成的三角关系为平衡关系，而零个或两个“+”形成的三角关系视为不平衡关系](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/balance-theory.jpg)
 
 > 如果一个标记的完全图是平衡的，则要么它的所有节点两两都是朋 友，要么它的节点可以分成两个组 X 和 Y，其中 X 组内的节点两两都是朋 友，Y 组内的节点两两也都是朋友，而 X 组中的每个节点都是 Y 组中每个 节点的敌人
 
@@ -97,7 +97,7 @@ $A$是图$G$的邻接矩阵，$\\lambda是特征值$
 在现实网络中，平衡性其实是很难保证的，研究人员发现，在很多情况下，上述两条正关系边和一条负关系边比三条负关系边，更容易出现关系分解。因此人们提出弱平衡性。
 对于一个完全图，其边以 + 或 - 标记，如果满足以下条件，则称任意三个节点，均不存在两个正关系边和一个负关系边的连接模式为弱平衡性。
 
-![任意三个节点，均不存在两个正关系边和一个负关系边的连接模式](http://wx3.sinaimg.cn/large/006C73MUly1fqtn9nve9pj30o0078dgq.jpg)
+![任意三个节点，均不存在两个正关系边和一个负关系边的连接模式](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/weak-balance-theory.jpg)
 
 > 如果一个标记的完全图是弱平衡的，则要么它的所有节点可分成不同的组，并且满足同一组中的任意两个节点互为朋友。
 
@@ -110,7 +110,7 @@ $A$是图$G$的邻接矩阵，$\\lambda是特征值$
 
 随着网络表示学习的发展，研究人员开始使用机器学习方法来学习给定网络的节点的低维矢量表示<cite>Wang S, Tang J, Aggarwal C, Chang Y, Liu H. Signed network embedding in social media. InProceedings of the 2017 SIAM international conference on data mining 2017 Jun 30 (pp. 327-335). Society for Industrial and Applied Mathematics.</cite>，可以使用网络表征学习然后进行聚类分析。在本系统中，可以选择不同的算法计算不同的图划分结果。
 
-<img alt="图划分的形式化定义"  width="80%" src="https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/graph-cut.png" />
+<img alt="图划分的形式化定义"  width="80%" src="https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/graph-cut.jpg" />
 
 
 `

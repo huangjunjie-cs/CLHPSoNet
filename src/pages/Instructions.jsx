@@ -5,7 +5,7 @@ const intro_md = `
 
 ## 使用说明
 
-![我们的框架模型](https://raw.githubusercontent.com/h12345jack/CLSRHF/thesis/imgs/framework.png)
+![我们的框架模型](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/framework.png)
 
 框架流程如图所示，包括以下几个部分：
 
@@ -27,20 +27,20 @@ const intro_md = `
 
 ### 以唐宋八大家中宋6人为例
 
-![唐宋八大家，是中国唐代韩愈、柳宗元和宋代欧阳修、苏洵、苏轼、苏辙、曾巩、王安石八位散文家的合称，而宋代的6人是同一时期的人物，研究他们的相关关系是一个时常被讨论的话题](http://ws2.sinaimg.cn/large/006C73MUgy1fu94pb3qrpj311y0lctrj.jpg)
+![唐宋八大家，是中国唐代韩愈、柳宗元和宋代欧阳修、苏洵、苏轼、苏辙、曾巩、王安石八位散文家的合称，而宋代的6人是同一时期的人物，研究他们的相关关系是一个时常被讨论的话题](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/eight-master.jpg)
 
 唐宋八大家之宋代欧阳修、苏洵、苏轼、苏辙、曾巩、王安石是同一时期的人物，研究他们的相关关系是一个时常被讨论的话题，其中王安石与欧阳修的师生情缘，王和三苏的政治争辩也是被历史学家和历史爱好者津津乐道，如[王安石、苏东坡、欧阳修三人到底什么关系](https://www.zhihu.com/question/20589740)。而我们的框架和系统同样能够给出一些有趣的结果。具体使用是首先输入种子用户，然后选择深度和算法，点击确定，得到相应的输入和中心性产出，直接关系与详情和组划分三部分结果的报告。
 
 
-![输入和中心性产出](http://wx2.sinaimg.cn/large/006C73MUly1fu3v2uza8rj317t0lgjyo.jpg)
+![输入和中心性产出](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/use1.jpg)
 
 查看直接关系，点击对应连边查看详情：
 
-![直接关系与详情](http://wx4.sinaimg.cn/large/006C73MUgy1fu3v428qabj316p0uf44z.jpg)
+![直接关系与详情](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/use2.jpg)
 
 查看图分割结果，点击节点查看人物画像：
 
-![三苏被分在了一个组，而另一个组为剩余3人](http://wx3.sinaimg.cn/large/006C73MUgy1fu3v4zlcdzj31gc0v3aoj.jpg)
+![三苏被分在了一个组，而另一个组为剩余3人](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/frontend/public/imgs/use3.jpg)
 
 `
 
