@@ -9,7 +9,7 @@ const intro_md = `
 众所周知，显微镜可以帮助生物科学家更好地观察细胞的内部结构。
 而我们的应用希望能够帮助历史研究人员或者历史爱好者不仅关注特定研究人物的关系，而且要认识到这些人物在整个大型社交网络中的作用，我们希望它能够像某些社会问题的计算镜头一样工作。
 
-![我们的框架，该框架包括3个部分：建模，子图提取，计算和可视化。最终的结果包括三个部分：中心度、直接关系和图划分](https://raw.githubusercontent.com/h12345jack/CLSRHF/thesis/imgs/framework.png)
+![我们的框架，该框架包括3个部分：建模，子图提取，计算和可视化。最终的结果包括三个部分：中心度、直接关系和图划分](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/framework.png)
 
 ### 和传统的方法的比较
 
@@ -20,7 +20,7 @@ const intro_md = `
 3.  阅读海量的历史文献资料
 4.  将数据列表，撰写论文或书籍
 
-![关键词：expert, directly, literature, paper](http://wx2.sinaimg.cn/large/006C73MUly1fu3kagg4x1j30gg03uwer.jpg)
+![关键词：expert, directly, literature, paper](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/tradition-methods.png)
 
 我们的方法的特点：
 
@@ -29,7 +29,7 @@ const intro_md = `
 3.  web系统产出结果
 4.  任何人都可以访问使用
 
-![关键词：database、network、web、accessiable](http://wx4.sinaimg.cn/large/006C73MUly1fu3kck0y0xj30ge03rwev.jpg)
+![关键词：database、network、web、accessiable](https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/our-methods.png)
 
 下表总结了我们的框架和传统的历史学研究的框架的异同。
 
@@ -50,7 +50,7 @@ const intro_md = `
 因此，我们设计了子图抽取的算法， 对于给定的研究对象，我们称为种子节点，然后设定宽度，从种子节点进行宽度优先搜索。
 得到包含种子节点的子图，我们对于该子图的研究既考虑了研究对象，也考虑了研究对象的网络的影响。
 
-<img width="50%" alt="子图抽取算法" src="http://wx2.sinaimg.cn/large/006C73MUly1fu3quxo2csj30sn0qb0yn.jpg" />
+<img width="50%" alt="子图抽取算法" src="https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/subgraph-extraction" />
 
 ### 正负关系网络相关理论<cite>大卫, 伊斯利, 乔恩. 克莱因伯格, 著. 网络, 群体与市场. 2011.</cite>
 
@@ -110,7 +110,7 @@ $A$是图$G$的邻接矩阵，$\\lambda是特征值$
 
 随着网络表示学习的发展，研究人员开始使用机器学习方法来学习给定网络的节点的低维矢量表示<cite>Wang S, Tang J, Aggarwal C, Chang Y, Liu H. Signed network embedding in social media. InProceedings of the 2017 SIAM international conference on data mining 2017 Jun 30 (pp. 327-335). Society for Industrial and Applied Mathematics.</cite>，可以使用网络表征学习然后进行聚类分析。在本系统中，可以选择不同的算法计算不同的图划分结果。
 
-<img alt="图划分的形式化定义"  width="80%" src="http://wx4.sinaimg.cn/large/006C73MUly1fu3ri63v19j30r20dt78f.jpg" />
+<img alt="图划分的形式化定义"  width="80%" src="https://raw.githubusercontent.com/huangjunjie95/CLHPSoNet/master/imgs/graph-cut.png" />
 
 
 `

@@ -7,7 +7,6 @@ import Input from '../components/input';
 import Output from '../components/output';
 import {compute_it} from '../api';
 
-import './css/md.css';
 
 const title_md = `
 ## 宋代人物正负关系分析
