@@ -1,6 +1,6 @@
 # Computing Lens for Exploring the Historical People's Social Network
 
-## [Demo Online](http://h12345jack.github.io/CLHPSoNet)
+## [Demo Online](http://clhpsonet.digitalhumanities.tech)
 
 Here is demo for Eight Great Prose Masters of the Song, which is just frontend UI without server.
 
